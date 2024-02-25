@@ -33,8 +33,8 @@ function fetchImages(queryString) {
         per_page: 40,
       },
     })
-    .then(response => response.data.hits)
-    .then(hits => {
+
+    .then(({ hits }) => {
       const markupArray = hits.map(
         ({
           webformatURL,
