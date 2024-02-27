@@ -2,17 +2,8 @@ import Notiflix from 'notiflix';
 import axios from 'axios';
 
 const searchForm = document.querySelector('#search-form');
-const moreButton = document.querySelector('.load-more');
-
-let currentPage = 1;
-let previousValue;
-let limit;
-
-moreButton.classList.add('hidden');
 
 searchForm.addEventListener('submit', event => {
-  moreButton.classList.add('hidden');
-  currentPage = 1;
   event.preventDefault();
   const queryString = event.target.searchQuery.value;
   fetchImages(queryString);
@@ -29,12 +20,10 @@ function fetchImages(queryString) {
         image_type: 'photo',
         orientation: 'horizontal',
         safesearch: true,
-        page: currentPage,
-        per_page: 40,
       },
     })
-
-    .then(({ hits }) => {
+    .then(response => response.data.hits)
+    .then(hits => {
       const markupArray = hits.map(
         ({
           webformatURL,
@@ -60,9 +49,5 @@ function fetchImages(queryString) {
 
       const gallery = document.querySelector('.gallery');
       gallery.innerHTML = markupArray.join(' ');
-    })
-    .catch(error => console.error('Error fetching images:', error));
-  moreButton.classList.remove('hidden');
+    });
 }
-
-moreButton.addEventListener('click', loadMore);
