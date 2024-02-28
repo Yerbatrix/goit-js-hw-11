@@ -1,3 +1,16 @@
 .hidden {
   display: none;
 }
+
+.search-form {
+  margin: 10px;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.photo-card {
+}
