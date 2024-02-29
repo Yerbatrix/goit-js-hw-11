@@ -52,10 +52,10 @@ body {
 .photo-card {
   width: 250px;
   margin-bottom: 20px;
-  border: 2px solid black;
+  border: 3px solid black;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.37);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.37);
   transition: all 0.3s ease;
   background-color: blanchedalmond;
 }
@@ -63,7 +63,7 @@ body {
 .photo-card:hover,
 .photo-card:focus {
   transform: scale(1.05);
-  border: 2px solid #007bff;
+  border: 2px solid #062c55;
 }
 
 .photo-card img {
@@ -105,6 +105,7 @@ body {
   transform: translateX(-50%);
   margin-bottom: 20px;
   font-family: 'Courier New', Courier, monospace;
+
   font-size: 32px;
 }
 

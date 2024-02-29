@@ -120,4 +120,9 @@ function renderImages(data) {
     gallery.innerHTML = markupArray.join(' ');
   }
 
-
+function scrollToNextBatch() {
+  window.scrollBy({
+    top: cardHeight * 2, // Przewijamy o dwie wysokości kart obrazków
+    behavior: "smooth", // Wybieramy płynne przewijanie
+  });
+}
