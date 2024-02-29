@@ -7,6 +7,7 @@ const loadMoreBtn = document.querySelector('.load-more');
 loadMoreBtn.classList.add('hidden');
 
 let currentPage = 1;
+let totalHits;
 
 searchForm.addEventListener('submit', async event => {
   event.preventDefault();
@@ -16,11 +17,13 @@ searchForm.addEventListener('submit', async event => {
 
   try {
     const images = await fetchImages(fixedQueryString);
+    showTotalHits(images);
     renderImages(images);
-    console.log(currentPage);
     loadMoreBtn.classList.remove('hidden');
   } catch (error) {
-    console.log(error);
+    Notiflix.Notify.failure(
+      `Wystąpił błąd przy pobieraniu/renderowaniu danych: ${error}`
+    );
   }
 });
 
@@ -30,11 +33,18 @@ loadMoreBtn.addEventListener('click', async () => {
   currentPage += 1;
 
   try {
-    const images = await fetchImages(fixedQueryString);
-    renderImages(images);
-    console.log(currentPage);
+    if (currentPage * 40 > totalHits) {
+      Notiflix.Notify.failure(
+        `Nie znaleziono więcej pasujących obrazków spełniających wymagania`
+      );
+    } else {
+      const images = await fetchImages(fixedQueryString);
+      renderImages(images);
+    }
   } catch (error) {
-    console.log(error);
+    Notiflix.Notify.failure(
+      `Wystąpił błąd przy pobieraniu/renderowaniu danych: ${error}`
+    );
   }
 });
 
@@ -50,6 +60,11 @@ async function fetchImages(queryString) {
       page: currentPage,
     },
   });
+}
+
+function showTotalHits(data) {
+  totalHits = data.data.totalHits;
+  Notiflix.Notify.success(`Znaleziono ${totalHits} pasujących odpowiedzi`);
 }
 
 function renderImages(data) {
