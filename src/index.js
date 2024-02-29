@@ -1,5 +1,7 @@
 import Notiflix from 'notiflix';
 import axios from 'axios';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
@@ -70,7 +72,7 @@ async function fetchImages(queryString) {
 
 function showTotalHits(data) {
   totalHits = data.data.totalHits;
-  Notiflix.Notify.success(`${totalHits} matching pictures were found`);
+  Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
 }
 
 function renderImages(data) {
@@ -85,15 +87,16 @@ function renderImages(data) {
       downloads,
     }) =>
       `<div class="photo-card">
-            <a href="${largeImageURL}">
+            <a class="gallery__link" href="${largeImageURL}">
               <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-            </a>
+             </a>
             <div class="info">
               <p class="info-item"><b>Likes: ${likes}</b></p>
               <p class="info-item"><b>Views: ${views}</b></p>
               <p class="info-item"><b>Comments: ${comments}</b></p>
               <p class="info-item"><b>Downloads: ${downloads}</b></p>
             </div>
+           
           </div>`
   );
   if (currentPage > 1) {
@@ -101,4 +104,10 @@ function renderImages(data) {
   } else {
     gallery.innerHTML = markupArray.join(' ');
   }
+
+  new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionDelay: 200,
+    captionPosition: 'bottom',
+  });
 }
