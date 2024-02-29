@@ -22,6 +22,14 @@ function isFull() {
   }
 }
 
+function initSimpleLightbox() {
+  new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionDelay: 200,
+    captionPosition: 'bottom',
+  });
+}
+
 searchForm.addEventListener('submit', async event => {
   event.preventDefault();
   currentPage = 1;
@@ -32,6 +40,7 @@ searchForm.addEventListener('submit', async event => {
     const images = await fetchImages(fixedQueryString);
     showTotalHits(images);
     renderImages(images);
+    initSimpleLightbox();
     isFull();
   } catch (error) {
     Notiflix.Notify.failure(
@@ -48,6 +57,7 @@ loadMoreBtn.addEventListener('click', async () => {
   try {
     const images = await fetchImages(fixedQueryString);
     renderImages(images);
+    initSimpleLightbox();
     isFull();
   } catch (error) {
     Notiflix.Notify.failure(
@@ -87,14 +97,19 @@ function renderImages(data) {
       downloads,
     }) =>
       `<div class="photo-card">
-            <a class="gallery__link" href="${largeImageURL}">
+            <a href="${largeImageURL}">
               <img src="${webformatURL}" alt="${tags}" loading="lazy" />
              </a>
             <div class="info">
+             <div class="likes-views">
               <p class="info-item"><b>Likes: ${likes}</b></p>
               <p class="info-item"><b>Views: ${views}</b></p>
-              <p class="info-item"><b>Comments: ${comments}</b></p>
-              <p class="info-item"><b>Downloads: ${downloads}</b></p>
+             </div>
+             <div class="comms-downl">
+                <p class="info-item"><b>Comments: ${comments}</b></p>
+                <p class="info-item"><b>Downloads: ${downloads}</b></p>
+             </div>
+
             </div>
            
           </div>`
@@ -105,9 +120,4 @@ function renderImages(data) {
     gallery.innerHTML = markupArray.join(' ');
   }
 
-  new SimpleLightbox('.gallery a', {
-    captionsData: 'alt',
-    captionDelay: 200,
-    captionPosition: 'bottom',
-  });
-}
+
